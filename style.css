@@ -1,0 +1,391 @@
+/* Soft & Light Vertical Green Gradient Base Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: linear-gradient(180deg, #c8e6c9 0%, #e8f5e9 40%, #f4f9f4 100%);
+    color: #333;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: #2e7d32; /* Clean medium green text */
+    margin-top: 60px;
+    text-align: center;
+}
+
+/* Top-right menu button container */
+.menu-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}
+
+.menu-button {
+    background: linear-gradient(180deg, #66bb6a 0%, #4caf50 100%);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 40px;
+    height: 35px;
+    box-shadow: 0 4px 6px rgba(46, 125, 50, 0.15);
+    transition: transform 0.2s;
+}
+
+.menu-button:hover {
+    transform: scale(1.05);
+}
+
+.menu-button .bar {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: white;
+    border-radius: 2px;
+}
+
+/* Full-Screen Width Dropdown Menu with Soft Gradient */
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(180deg, #ffffff 0%, #e8f5e9 100%);
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    z-index: 5;
+    padding-top: 70px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    border-bottom: 3px solid #4caf50;
+}
+
+.menu-dropdown a {
+    color: #2e7d32;
+    padding: 15px 30px;
+    text-decoration: none;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.menu-dropdown a:hover {
+    background-color: #c8e6c9;
+    color: #1b5e20;
+}
+
+@keyframes flyDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.show {
+    display: block;
+    animation: flyDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* --- VIEW ROUTER STYLES --- */
+.view {
+    display: none;
+}
+.active-view {
+    display: block;
+}
+
+/* Form Card & Container Layout with Soft Vertical Gradient */
+.form-wrapper, .chat-container, .camera-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f9f4 100%);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(46, 125, 50, 0.1);
+    border-top: 5px solid #4caf50;
+    box-sizing: border-box;
+}
+
+.form-card {
+    width: 100%;
+}
+
+.form-card h2, .chat-container h2, .camera-container h2 {
+    color: #2e7d32;
+    margin-top: 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #2e7d32;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #c8e6c9;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #fff;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+}
+
+/* Buttons with Soft Green Gradient */
+.submit-btn, .cta-btn, .camera-controls button {
+    width: 100%;
+    background: linear-gradient(180deg, #66bb6a 0%, #4caf50 100%);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.submit-btn:hover, .cta-btn:hover, .camera-controls button:hover {
+    background: linear-gradient(180deg, #4caf50 0%, #388e3c 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(76, 175, 80, 0.3);
+}
+
+/* CTA Specific Center Alignment */
+#home-view {
+    text-align: center;
+    margin-top: 80px;
+}
+
+#home-view p {
+    color: #2e7d32;
+    font-size: 18px;
+}
+
+.cta-btn {
+    max-width: 250px;
+    margin-top: 25px;
+}
+
+/* Chat & Camera Specific UI */
+.chat-box {
+    height: 300px;
+    border: 1px solid #c8e6c9;
+    border-radius: 6px;
+    padding: 15px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    background: linear-gradient(180deg, #ffffff 0%, #f9fbf9 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ai-message, .user-message {
+    padding: 10px 14px;
+    border-radius: 8px;
+    max-width: 80%;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.ai-message {
+    background: linear-gradient(180deg, #e8f5e9, #f1f8f1);
+    color: #2e7d32;
+    align-self: flex-start;
+    border: 1px solid #c8e6c9;
+}
+
+.user-message {
+    background: linear-gradient(180deg, #66bb6a, #4caf50);
+    color: white;
+    align-self: flex-end;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 10px;
+}
+
+.video-wrap {
+    width: 100%;
+    max-height: 400px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#camera-stream {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+.camera-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.camera-controls button {
+    flex: 1;
+    min-width: 120px;
+}
+
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-card {
+    background: linear-gradient(180deg, #ffffff 0%, #f4f9f4 100%);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 450px;
+    border-top: 6px solid #4caf50;
+    box-sizing: border-box;
+}
+
+/* Loading Modal Overlay */
+#loading-modal {
+    display: none; /* Controlled by JS via flex */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Box Container */
+#loading-modal .modal-content {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    max-width: 320px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Loading Spinner Style */
+#loading-modal .spinner {
+    width: 45px;
+    height: 45px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #2e7d32; /* Matches your green theme */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+/* Spinner Spin Animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Modal Text Styling */
+#loading-modal h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: #333333;
+}
+
+#loading-modal p {
+    margin: 0;
+    font-size: 14px;
+    color: #666666;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.cancel-btn {
+    width: 100%;
+    background: linear-gradient(180deg, #e57373 0%, #d32f2f 100%) !important;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(211, 47, 47, 0.2);
+    box-sizing: border-box;
+}
+
+.cancel-btn:hover {
+    background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%) !important;
+}
+
+/* Styling for the structured answer card output */
+#answer-content {
+    background-color: #f9fbf9;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 20px;
+    color: #1b5e20;
+    white-space: pre-wrap;
+}
+
+/* Styling for the logged-in user account name badge in menu */
+.user-account-badge {
+    color: #1b5e20;
+    padding: 15px 30px;
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid #c8e6c9;
+    background-color: #f4f9f4;
+    text-align: center;
+}
