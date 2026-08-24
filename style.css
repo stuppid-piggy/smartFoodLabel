@@ -1,4 +1,3 @@
-/* Soft & Light Vertical Green Gradient Base Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -10,12 +9,11 @@ body {
 }
 
 h1 {
-    color: #2e7d32; /* Clean medium green text */
+    color: #2e7d32;
     margin-top: 60px;
     text-align: center;
 }
 
-/* Top-right menu button container */
 .menu-container {
     position: absolute;
     top: 20px;
@@ -50,7 +48,6 @@ h1 {
     border-radius: 2px;
 }
 
-/* Full-Screen Width Dropdown Menu with Soft Gradient */
 .menu-dropdown {
     display: none;
     position: absolute;
@@ -91,7 +88,6 @@ h1 {
     animation: flyDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* --- VIEW ROUTER STYLES --- */
 .view {
     display: none;
 }
@@ -99,7 +95,6 @@ h1 {
     display: block;
 }
 
-/* Form Card & Container Layout with Soft Vertical Gradient */
 .form-wrapper, .chat-container, .camera-container {
     max-width: 600px;
     margin: 40px auto;
@@ -151,8 +146,7 @@ h1 {
     box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
 }
 
-/* Buttons with Soft Green Gradient */
-.submit-btn, .cta-btn, .camera-controls button {
+.submit-btn, .cta-btn, .camera-controls button, input-group label + input[type="file"] {
     width: 100%;
     background: linear-gradient(180deg, #66bb6a 0%, #4caf50 100%);
     color: white;
@@ -176,7 +170,6 @@ h1 {
     box-shadow: 0 6px 14px rgba(76, 175, 80, 0.3);
 }
 
-/* CTA Specific Center Alignment */
 #home-view {
     text-align: center;
     margin-top: 80px;
@@ -192,7 +185,6 @@ h1 {
     margin-top: 25px;
 }
 
-/* Chat & Camera Specific UI */
 .chat-box {
     height: 300px;
     border: 1px solid #c8e6c9;
@@ -264,13 +256,13 @@ h1 {
 }
 
 .modal-overlay {
-    display: none; /* Hidden by default */
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+    background-color: rgba(0, 0, 0, 0.5); 
     z-index: 100;
     justify-content: center;
     align-items: center;
@@ -287,21 +279,19 @@ h1 {
     box-sizing: border-box;
 }
 
-/* Loading Modal Overlay */
 #loading-modal {
-    display: none; /* Controlled by JS via flex */
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    background-color: rgba(0, 0, 0, 0.5); 
     z-index: 9999;
     justify-content: center;
     align-items: center;
 }
 
-/* Modal Box Container */
 #loading-modal .modal-content {
     background: #ffffff;
     padding: 30px;
@@ -316,24 +306,21 @@ h1 {
     justify-content: center;
 }
 
-/* Loading Spinner Style */
 #loading-modal .spinner {
     width: 45px;
     height: 45px;
     border: 5px solid #f3f3f3;
-    border-top: 5px solid #2e7d32; /* Matches your green theme */
+    border-top: 5px solid #2e7d32; 
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 15px;
 }
 
-/* Spinner Spin Animation */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-/* Modal Text Styling */
 #loading-modal h3 {
     margin: 0 0 8px 0;
     font-size: 18px;
@@ -369,7 +356,6 @@ h1 {
     background: linear-gradient(180deg, #d32f2f 0%, #b71c1c 100%) !important;
 }
 
-/* Styling for the structured answer card output */
 #answer-content {
     background-color: #f9fbf9;
     border: 1px solid #c8e6c9;
@@ -379,7 +365,6 @@ h1 {
     white-space: pre-wrap;
 }
 
-/* Styling for the logged-in user account name badge in menu */
 .user-account-badge {
     color: #1b5e20;
     padding: 15px 30px;

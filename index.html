@@ -7,12 +7,11 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="module">
         import * as webllm from "https://esm.run/@mlc-ai/web-llm";
-        window.webllm = webllm; // Make it globally accessible to sketch.js
+        window.webllm = webllm; 
     </script>
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
 </head>
 <body>
-
-    <!-- Top-Right Menu Button -->
     <div class="menu-container">
         <button onclick="toggleMenu()" class="menu-button">
             <span class="bar"></span>
@@ -21,7 +20,6 @@
         </button>
     </div>
 
-    <!-- Dropdown Menu with Hash Links -->
     <div id="myDropdown" class="menu-dropdown">
         <div id="auth-menu-links">
             <a href="#login" onclick="toggleMenu()">登入</a>
@@ -29,14 +27,12 @@
         </div>
     </div>
 
-    <!-- ================= VIEW 1: HOME ================= -->
     <div id="home-view" class="view">
         <h1>智能食物标签-你的健康助手</h1>
         <p>通过拍照识别食物成分表，快速了解食物的营养信息和健康建议。</p>
         <a href="#main" class="cta-btn">现在立即使用</a>
     </div>
 
-    <!-- ================= VIEW 2: LOGIN ================= -->
     <div id="login-view" class="view">
         <div class="form-wrapper">
             <div class="form-card">
@@ -59,7 +55,6 @@
         </div>
     </div>
 
-    <!-- ================= VIEW 3: REGISTER ================= -->
     <div id="register-view" class="view">
         <div class="form-wrapper">
             <div class="form-card">
@@ -82,20 +77,25 @@
         </div>
     </div>
 
-    <!-- ================= VIEW 4: MAIN / CAMERA ================= -->
     <div id="main-view" class="view">
         <div class="camera-container">
             <h2>食物标签扫描仪</h2>
             <p>请允许浏览器使用您的摄像头以扫描食物成分表。</p>
-            
             <div class="video-wrap">
-                <video id="camera-stream" autoplay playsinline></video>
+                <video id="camera-stream" autoplay playsinline style="width: 100%; max-width: 500px; border-radius: 12px;"></video>
             </div>
 
             <div class="camera-controls">
                 <button onclick="startCamera()" class="submit-btn" style="background-color: #2e7d32;">开启摄像头</button>
                 <button onclick="capturePhoto()" class="submit-btn" style="background-color: #388e3c;">拍照识别</button>
                 <button onclick="stopCamera()" class="submit-btn" style="background-color: #d32f2f;">关闭摄像头</button>
+            </div>
+
+            <div class="input-group" style="margin-top: 15px;">
+                <label for="upload-photo-input" class="submit-btn" style="background-color: #2e7d32; color: white; cursor: pointer; display: inline-block; text-align: center;">
+                    📁 上传本地照片
+                </label>
+                <input type="file" id="upload-photo-input" accept="image/*" style="display: none;" onchange="handleFileUpload(event)">
             </div>
 
             <canvas id="snapshot-canvas" style="display:none;"></canvas>
@@ -107,8 +107,8 @@
             </p>
         </div>
     </div>
+    
 
-    <!-- ================= VIEW 5: ANSWER PAGE ================= -->
     <div id="answer-view" class="view">
         <div class="form-wrapper" style="text-align: left;">
             <h2>食物分析结果</h2>
@@ -121,7 +121,6 @@
         </div>
     </div>
 
-    <!-- ================= LOADING MODAL ================= -->
     <div id="loading-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="spinner"></div>
@@ -130,7 +129,6 @@
         </div>
     </div>
 
-    <!-- ================= CUSTOM ALERT MODAL ================= -->
     <div id="custom-alert-modal" class="modal-overlay">
         <div class="modal-card" style="text-align: center;">
             <h2 id="alert-title" style="color: #2e7d32; margin-top: 0; margin-bottom: 15px;">提示</h2>
@@ -140,7 +138,6 @@
     </div>
 
     <script src="sketch.js"></script>
-    <!-- ================= PROFILE VIEW ================= -->
     <div id="profile-view" class="view">
         <div class="card" style="text-align: left; max-width: 500px; margin: 40px auto;">
             <h2 style="color: #2e7d32; text-align: center; margin-top: 0;">👤 个人资料与偏好设置</h2>

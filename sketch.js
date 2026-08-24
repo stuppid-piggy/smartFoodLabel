@@ -1,9 +1,7 @@
-// Toggle mobile/fly-down menu
 function toggleMenu() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
-// Router for View Navigation (Added #profile)
 function router() {
     const hash = window.location.hash;
     document.querySelectorAll('.view').forEach(view => {
@@ -21,6 +19,9 @@ function router() {
     } else if (hash === '#profile') {
         if (loggedInUser) {
             document.getElementById('profile-username').value = loggedInUser;
+            const prefs = JSON.parse(localStorage.getItem('prefs_' + loggedInUser) || '{}');
+            document.getElementById('pref-diet').value = prefs.diet || '';
+            document.getElementById('pref-goal').value = prefs.goal || '';
         }
         document.getElementById('profile-view').classList.add('active-view');
     } else {
@@ -28,105 +29,61 @@ function router() {
     }
 }
 
-// Global variables
-let loggedInUser = null;
-let hasSavedPreference = false;
-let aiEngine = null;
+let loggedInUser = localStorage.getItem('currentUser') || null;
 
-// Initialize WebLLM Engine in Browser using CreateMLCEngine
-async function initBrowserAI() {
-    if (aiEngine) return;
-    const selectedModel = "Llama-3.2-1B-Instruct-q4f32_1-MLC";
-    
-    showLoadingModal('正在浏览器本地加载 AI 模型（首次加载可能需要下载权重，请稍候...）', 'AI 初始化');
-
-    try {
-        aiEngine = await window.webllm.CreateMLCEngine(selectedModel, {
-            initProgressCallback: (progress) => {
-                console.log(progress.text);
-            }
-        });
-        hideLoadingModal();
-        showCustomAlert('本地 AI 模型加载完成！', '成功');
-    } catch (err) {
-        console.error("WebLLM initialization error:", err);
-        showCustomAlert('本地 AI 模型加载失败，请检查浏览器 WebGPU 支持。', '错误');
-    }
+if (loggedInUser) {
+    updateMenuForLoggedInUser(loggedInUser);
 }
 
-// Handle User Registration
-async function handleRegister(event) {
+function handleRegister(event) {
     event.preventDefault();
     const username = document.getElementById('reg-username').value.trim();
     const password = document.getElementById('reg-password').value.trim();
 
-    try {
-        const response = await fetch('/api/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const data = await response.json();
+    let users = JSON.parse(localStorage.getItem('app_users') || '{}');
 
-        if (data.success) {
-            loggedInUser = username;
-            hasSavedPreference = false;
-
-            showCustomAlert('注册成功！请设置您的饮食偏好。');
-            document.getElementById('reg-username').value = '';
-            document.getElementById('reg-password').value = '';
-            
-            updateMenuForLoggedInUser(loggedInUser);
-
-            window.location.hash = '#profile';
-
-            setTimeout(() => {
-                if (!hasSavedPreference) {
-                    showCustomAlert('If you do not save a preference, it may not work properly', '警告');
-                }
-            }, 500);
-        } else {
-            showCustomAlert(data.message, '错误');
-        }
-    } catch (err) {
-        showCustomAlert('无法连接到服务器。', '错误');
+    if (users[username]) {
+        showCustomAlert('账号已存在', '错误');
+        return;
     }
+
+    users[username] = { password };
+    localStorage.setItem('app_users', JSON.stringify(users));
+    
+    loggedInUser = username;
+    localStorage.setItem('currentUser', username);
+
+    showCustomAlert('注册成功！请设置您的饮食偏好。');
+    document.getElementById('reg-username').value = '';
+    document.getElementById('reg-password').value = '';
+    
+    updateMenuForLoggedInUser(loggedInUser);
+    window.location.hash = '#profile';
 }
 
-// Handle User Login
-async function handleLogin(event) {
+function handleLogin(event) {
     event.preventDefault();
     const username = document.getElementById('login-username').value.trim();
     const password = document.getElementById('login-password').value.trim();
 
-    try {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const data = await response.json();
+    let users = JSON.parse(localStorage.getItem('app_users') || '{}');
 
-        if (data.success) {
-            loggedInUser = data.username;
-            hasSavedPreference = true; 
-            
-            showCustomAlert('登入成功！欢迎回来，' + loggedInUser + '。');
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            
-            updateMenuForLoggedInUser(loggedInUser);
-
-            window.location.hash = '#main';
-        } else {
-            showCustomAlert(data.message, '错误');
-        }
-    } catch (err) {
-        showCustomAlert('无法连接到服务器。', '错误');
+    if (!users[username] || users[username].password !== password) {
+        showCustomAlert('账号或密码错误', '错误');
+        return;
     }
+
+    loggedInUser = username;
+    localStorage.setItem('currentUser', username);
+    
+    showCustomAlert('登入成功！欢迎回来，' + loggedInUser + '。');
+    document.getElementById('login-username').value = '';
+    document.getElementById('login-password').value = '';
+    
+    updateMenuForLoggedInUser(loggedInUser);
+    window.location.hash = '#main';
 }
 
-// Update menu content once logged in
 function updateMenuForLoggedInUser(username) {
     const authLinksDiv = document.getElementById('auth-menu-links');
     if (authLinksDiv) {
@@ -138,24 +95,22 @@ function updateMenuForLoggedInUser(username) {
     }
 }
 
-// Save preferences
 function saveProfilePreference(event) {
     event.preventDefault();
-    hasSavedPreference = true;
+    if (!loggedInUser) return;
     
     const diet = document.getElementById('pref-diet').value;
     const goal = document.getElementById('pref-goal').value;
     
-    console.log("Saved preferences for", loggedInUser, { diet, goal });
+    localStorage.setItem('prefs_' + loggedInUser, JSON.stringify({ diet, goal }));
 
     showCustomAlert('个人资料与偏好已成功更新！');
     window.location.hash = '#main';
 }
 
-// Handle Logout
 function handleLogout() {
     loggedInUser = null;
-    hasSavedPreference = false;
+    localStorage.removeItem('currentUser');
     
     const authLinksDiv = document.getElementById('auth-menu-links');
     if (authLinksDiv) {
@@ -175,10 +130,8 @@ function handleLogout() {
 window.addEventListener('hashchange', router);
 window.addEventListener('load', () => {
     router();
-    initBrowserAI();
 });
 
-// Close menu when clicking outside
 window.onclick = function(event) {
     if (!event.target.closest('.menu-container') && !event.target.closest('.menu-dropdown')) {
         var dropdown = document.getElementById("myDropdown");
@@ -190,7 +143,6 @@ window.onclick = function(event) {
 
 let mediaStream = null;
 
-// Start camera
 async function startCamera() {
     const videoElement = document.getElementById('camera-stream');
     try {
@@ -205,7 +157,6 @@ async function startCamera() {
     }
 }
 
-// Stop camera
 function stopCamera() {
     if (mediaStream) {
         let tracks = mediaStream.getTracks();
@@ -216,56 +167,151 @@ function stopCamera() {
     videoElement.srcObject = null;
 }
 
-// Capture photo and run local WebLLM inference
 async function capturePhoto() {
-    if (!mediaStream) {
-        showCustomAlert('请先开启摄像头！');
+    const videoElement = document.getElementById('camera-stream');
+    if (!mediaStream || !videoElement.srcObject) {
+        showCustomAlert('请先开启摄像头！', '错误');
         return;
     }
-    
-    if (!aiEngine) {
-        showloadingModal('AI 模型未加载', '请等待 AI 模型加载完成后再尝试分析。');
-        return;
-    }
-    if (aiEngine) {
-        hideLoadingModal();
-    }
-    
-    showLoadingModal();
-    
+
+    showLoadingModal('正在分析', '正在分析食物成分...');
+
     try {
-        const messages = [
-            { 
-                role: "system", 
-                content: "你是一位专业的营养师和食品安全专家。请用中文提供：1. 健康星级，2. 健康建议，3. 详细分析。" 
-            },
-            { 
-                role: "user", 
-                content: "请为我生成一份食品营养评估报告与分析。" 
-            }
-        ];
-
-        const reply = await aiEngine.chat.completions.create({ messages });
-        const analysisText = reply.choices[0].message.content;
-
-        hideLoadingModal();
+        const canvas = document.getElementById('snapshot-canvas');
+        canvas.width = videoElement.videoWidth || 640;
+        canvas.height = videoElement.videoHeight || 480;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
         
+        const base64Image = canvas.toDataURL('image/jpeg');
+        const apiKey = "sk-f3f19798e4d246b98b1678b1a40e7f7d";
+
+        const response = await fetch('https://api.deepseek.com/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'deepseek-v4-flash-vision-exp',
+                messages: [
+                    {
+                        role: 'system',
+                        content: `你是一位专业的营养师和食品安全专家。请客观地根据该用户的专属偏好：${document.getElementById('pref-diet').value}和${document.getElementById('pref-goal').value}来分析这张食物标签或图片（若食物不符合其目标或忌口需降低星级），重点评估其成分、营养优缺点和整体健康度。总字数严格控制在300字以上，500字以内，内容包含：1. 健康星级(如⭐⭐⭐⭐☆）必须用表情符号来表达，2. 核心成分与健康简析。绝对不要在回答末尾提出任何反问或追问，也不要给出任何专业术语、数字，要让任何人看懂。`
+                    },
+                    {
+                        role: 'user',
+                        content: [
+                            { type: 'text', text: '请分析这款食物的成分与营养信息。' },
+                            { type: 'image_url', image_url: { url: base64Image } }
+                        ]
+                    }
+                ],
+                stream: false
+            })
+        });
+
+        const data = await response.json();
+        hideLoadingModal();
+
+        if (data.error) {
+            showCustomAlert('DeepSeek 错误: ' + data.error.message, '错误');
+            return;
+        }
+
+        const analysisText = data.choices[0].message.content;
+
+        let safeText = escapeHtml(analysisText);
+        
+        const enlargedStarsText = analysisText.replace(/([⭐☆]+)/g, '<span style="font-size: 300%; vertical-align: middle;">$1</span>');
+        
+        const finalFormatted = escapeHtml(analysisText).replace(/([⭐☆]+)/g, '<span style="font-size: 300%; vertical-align: middle;">$1</span>');
+
         document.getElementById('answer-content').innerHTML = `
-            <div style="white-space: pre-line; text-align: left; line-height: 1.6;">
-                ${escapeHtml(analysisText)}
+            <div style="white-space: pre-line; text-align: left; line-height: 1.8;">
+                ${finalFormatted}
             </div>
         `;
         window.location.hash = '#answer';
 
     } catch (err) {
         hideLoadingModal();
-        console.error("Local AI inference error:", err);
-        showCustomAlert('本地 AI 分析失败。', '错误');
+        console.error("DeepSeek API error:", err);
+        showCustomAlert('请求失败，请检查网络或 API Key 是否正确。', '错误');
     }
 }
 
-// Modal Helpers
-// Enhanced Modal Helpers with customizable text
+async function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        showCustomAlert('请选择有效的图片文件！', '错误');
+        return;
+    }
+
+    showLoadingModal('正在分析', 'DeepSeek 正在分析上传的照片...');
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const base64Image = e.target.result;
+        const apiKey = "sk-f3f19798e4d246b98b1678b1a40e7f7d";
+
+        try {
+            const response = await fetch('https://api.deepseek.com/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'deepseek-v4-flash-vision-exp',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: `你是一位专业的营养师和食品安全专家。请客观地根据该用户的专属偏好：${document.getElementById('pref-diet') ? document.getElementById('pref-diet').value : '无'}和${document.getElementById('pref-goal') ? document.getElementById('pref-goal').value : '无'}来分析这张食物标签或图片（若食物不符合其目标或忌口需降低星级），重点评估其成分、营养优缺点和整体健康度。总字数严格控制在300字以上，500字以内，内容包含：1. 健康星级(如⭐⭐⭐⭐☆）必须用表情符号来表达，2. 核心成分与健康简析。绝对不要在回答末尾提出任何反问或追问，也不要给出任何专业术语、数字，要让任何人看懂。`
+                        },
+                        {
+                            role: 'user',
+                            content: [
+                                { type: 'text', text: '请分析这款食物的成分与营养信息。' },
+                                { type: 'image_url', image_url: { url: base64Image } }
+                            ]
+                        }
+                    ],
+                    stream: false
+                })
+            });
+
+            const data = await response.json();
+            hideLoadingModal();
+
+            if (data.error) {
+                showCustomAlert('DeepSeek 错误: ' + data.error.message, '错误');
+                return;
+            }
+
+            const analysisText = data.choices[0].message.content;
+            const finalFormatted = escapeHtml(analysisText).replace(/([⭐☆]+)/g, '<span style="font-size: 300%; vertical-align: middle;">$1</span>');
+            
+            document.getElementById('answer-content').innerHTML = `
+                <div style="white-space: pre-line; text-align: left; line-height: 1.8;">
+                    ${finalFormatted}
+                </div>
+            `;
+            window.location.hash = '#answer';
+
+        } catch (err) {
+            hideLoadingModal();
+            console.error("DeepSeek API error:", err);
+            showCustomAlert('请求失败，请检查网络或 API Key 是否正确。', '错误');
+        }
+    };
+
+    reader.readAsDataURL(file);
+    event.target.value = '';
+}
+
 function showLoadingModal(title = '加载中', message = '正在处理，请稍候...') {
     const titleEl = document.getElementById('loading-title');
     const messageEl = document.getElementById('loading-message');
