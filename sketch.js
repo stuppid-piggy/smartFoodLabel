@@ -43,7 +43,7 @@ function handleRegister(event) {
     let users = JSON.parse(localStorage.getItem('app_users') || '{}');
 
     if (users[username]) {
-        showCustomAlert('账号已存在', '错误');
+        showCustomAlert('賬號已存在', '錯誤');
         return;
     }
 
@@ -53,7 +53,7 @@ function handleRegister(event) {
     loggedInUser = username;
     localStorage.setItem('currentUser', username);
 
-    showCustomAlert('注册成功！请设置您的饮食偏好。');
+    showCustomAlert('注冊成功！請設置您的飲食偏好。');
     document.getElementById('reg-username').value = '';
     document.getElementById('reg-password').value = '';
     
@@ -69,14 +69,14 @@ function handleLogin(event) {
     let users = JSON.parse(localStorage.getItem('app_users') || '{}');
 
     if (!users[username] || users[username].password !== password) {
-        showCustomAlert('账号或密码错误', '错误');
+        showCustomAlert('賬號或密碼錯誤', '錯誤');
         return;
     }
 
     loggedInUser = username;
     localStorage.setItem('currentUser', username);
     
-    showCustomAlert('登入成功！欢迎回来，' + loggedInUser + '。');
+    showCustomAlert('登入成功！歡迎回來，' + loggedInUser + '。');
     document.getElementById('login-username').value = '';
     document.getElementById('login-password').value = '';
     
@@ -89,7 +89,7 @@ function updateMenuForLoggedInUser(username) {
     if (authLinksDiv) {
         authLinksDiv.innerHTML = `
             <a href="#profile" onclick="toggleMenu()" class="user-account-badge" style="color: #2e7d32; font-weight: bold; background-color: #f4f9f4;">
-                👤 ${escapeHtml(username)} (个人资料)
+                👤 ${escapeHtml(username)} (個人資料)
             </a>
         `;
     }
@@ -104,7 +104,7 @@ function saveProfilePreference(event) {
     
     localStorage.setItem('prefs_' + loggedInUser, JSON.stringify({ diet, goal }));
 
-    showCustomAlert('个人资料与偏好已成功更新！');
+    showCustomAlert('個人資料與偏好已成功更新！');
     window.location.hash = '#main';
 }
 
@@ -116,7 +116,7 @@ function handleLogout() {
     if (authLinksDiv) {
         authLinksDiv.innerHTML = `
             <a href="#login" onclick="toggleMenu()">登入</a>
-            <a href="#register" onclick="toggleMenu()">注册</a>
+            <a href="#register" onclick="toggleMenu()">注冊</a>
         `;
     }
     
@@ -153,7 +153,7 @@ async function startCamera() {
         videoElement.srcObject = mediaStream;
     } catch (err) {
         console.error("Camera access error:", err);
-        showCustomAlert('无法访问摄像头，请检查权限或设备设置。', '错误');
+        showCustomAlert('無法訪問攝像頭，請檢查權限或設備設置。', '錯誤');
     }
 }
 
@@ -170,7 +170,7 @@ function stopCamera() {
 async function capturePhoto() {
     const videoElement = document.getElementById('camera-stream');
     if (!mediaStream || !videoElement.srcObject) {
-        showCustomAlert('请先开启摄像头！', '错误');
+        showCustomAlert('請先開啟攝像頭！', '錯誤');
         return;
     }
 
@@ -197,12 +197,12 @@ async function capturePhoto() {
                 messages: [
                     {
                         role: 'system',
-                        content: `你是一位专业的营养师和食品安全专家。请客观地根据该用户的专属偏好：${document.getElementById('pref-diet').value}和${document.getElementById('pref-goal').value}来分析这张食物标签或图片（若食物不符合其目标或忌口需降低星级），重点评估其成分、营养优缺点和整体健康度。总字数严格控制在300字以上，500字以内，内容包含：1. 健康星级(如⭐⭐⭐⭐☆）必须用表情符号来表达，2. 核心成分与健康简析。绝对不要在回答末尾提出任何反问或追问，也不要给出任何专业术语、数字，要让任何人看懂。`
+                        content: `你是一位專業的營養師和食品安全專家。請客觀地根據該用戶的專屬偏好：${document.getElementById('pref-diet').value}和${document.getElementById('pref-goal').value}來分析這張食物標簽或圖片（若食物不符合其目標或忌口需降低星級），重點評估其成分、營養優缺點和整體健康度。總字數嚴格控制在300字以上，500字以內，內容包含：1. 健康星級(如⭐⭐⭐⭐☆）必須用表情符號來表達，2. 核心成分與健康簡析。絕對不要在回答末尾提出任何反問或追問，也不要給出任何專業術語、數字，要讓任何人看懂。`
                     },
                     {
                         role: 'user',
                         content: [
-                            { type: 'text', text: '请分析这款食物的成分与营养信息。' },
+                            { type: 'text', text: '請分析這款食物的成分與營養信息。' },
                             { type: 'image_url', image_url: { url: base64Image } }
                         ]
                     }
@@ -215,7 +215,7 @@ async function capturePhoto() {
         hideLoadingModal();
 
         if (data.error) {
-            showCustomAlert('DeepSeek 错误: ' + data.error.message, '错误');
+            showCustomAlert('DeepSeek 錯誤: ' + data.error.message, '錯誤');
             return;
         }
 
@@ -237,7 +237,7 @@ async function capturePhoto() {
     } catch (err) {
         hideLoadingModal();
         console.error("DeepSeek API error:", err);
-        showCustomAlert('请求失败，请检查网络或 API Key 是否正确。', '错误');
+        showCustomAlert('請求失敗，請檢查網絡或 API Key 是否正確。', '錯誤');
     }
 }
 
@@ -246,11 +246,11 @@ async function handleFileUpload(event) {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-        showCustomAlert('请选择有效的图片文件！', '错误');
+        showCustomAlert('請選擇有效的圖片文件！', '錯誤');
         return;
     }
 
-    showLoadingModal('正在分析', 'DeepSeek 正在分析上传的照片...');
+    showLoadingModal('正在分析', 'DeepSeek 正在分析上傳的照片...');
 
     const reader = new FileReader();
     reader.onload = async function(e) {
@@ -269,12 +269,12 @@ async function handleFileUpload(event) {
                     messages: [
                         {
                             role: 'system',
-                            content: `你是一位专业的营养师和食品安全专家。请客观地根据该用户的专属偏好：${document.getElementById('pref-diet') ? document.getElementById('pref-diet').value : '无'}和${document.getElementById('pref-goal') ? document.getElementById('pref-goal').value : '无'}来分析这张食物标签或图片（若食物不符合其目标或忌口需降低星级），重点评估其成分、营养优缺点和整体健康度。总字数严格控制在300字以上，500字以内，内容包含：1. 健康星级(如⭐⭐⭐⭐☆）必须用表情符号来表达，2. 核心成分与健康简析。绝对不要在回答末尾提出任何反问或追问，也不要给出任何专业术语、数字，要让任何人看懂。`
+                            content: `你是一位專業的營養師和食品安全專家。請客觀地根據該用戶的專屬偏好：${document.getElementById('pref-diet') ? document.getElementById('pref-diet').value : '無'}和${document.getElementById('pref-goal') ? document.getElementById('pref-goal').value : '無'}來分析這張食物標簽或圖片（若食物不符合其目標或忌口需降低星級），重點評估其成分、營養優缺點和整體健康度。總字數嚴格控制在300字以上，500字以內，內容包含：1. 健康星級(如⭐⭐⭐⭐☆）必須用表情符號來表達，2. 核心成分與健康簡析。絕對不要在回答末尾提出任何反問或追問，也不要給出任何專業術語、數字，要讓任何人看懂。`
                         },
                         {
                             role: 'user',
                             content: [
-                                { type: 'text', text: '请分析这款食物的成分与营养信息。' },
+                                { type: 'text', text: '請分析這款食物的成分與營養信息。' },
                                 { type: 'image_url', image_url: { url: base64Image } }
                             ]
                         }
@@ -287,7 +287,7 @@ async function handleFileUpload(event) {
             hideLoadingModal();
 
             if (data.error) {
-                showCustomAlert('DeepSeek 错误: ' + data.error.message, '错误');
+                showCustomAlert('DeepSeek 錯誤: ' + data.error.message, '錯誤');
                 return;
             }
 
@@ -304,7 +304,7 @@ async function handleFileUpload(event) {
         } catch (err) {
             hideLoadingModal();
             console.error("DeepSeek API error:", err);
-            showCustomAlert('请求失败，请检查网络或 API Key 是否正确。', '错误');
+            showCustomAlert('請求失敗，請檢查網絡或 API Key 是否正確。', '錯誤');
         }
     };
 
@@ -312,7 +312,7 @@ async function handleFileUpload(event) {
     event.target.value = '';
 }
 
-function showLoadingModal(title = '加载中', message = '正在处理，请稍候...') {
+function showLoadingModal(title = '加載中', message = '正在處理，請稍候...') {
     const titleEl = document.getElementById('loading-title');
     const messageEl = document.getElementById('loading-message');
     

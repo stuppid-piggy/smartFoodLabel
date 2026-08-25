@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>智能食物标签</title>
+    <title>智能食物標簽</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <script type="module">
         import * as webllm from "https://esm.run/@mlc-ai/web-llm";
@@ -23,33 +23,33 @@
     <div id="myDropdown" class="menu-dropdown">
         <div id="auth-menu-links">
             <a href="#login" onclick="toggleMenu()">登入</a>
-            <a href="#register" onclick="toggleMenu()">注册</a>
+            <a href="#register" onclick="toggleMenu()">注冊</a>
         </div>
     </div>
 
     <div id="home-view" class="view">
-        <h1>智能食物标签-你的健康助手</h1>
-        <p>通过拍照识别食物成分表，快速了解食物的营养信息和健康建议。</p>
-        <a href="#main" class="cta-btn">现在立即使用</a>
+        <h1>智能食物標簽-你的健康助手</h1>
+        <p>通過拍照識別食物成分表，快速了解食物的營養信息和健康建議。</p>
+        <a href="#main" class="cta-btn">現在立即使用</a>
     </div>
 
     <div id="login-view" class="view">
         <div class="form-wrapper">
             <div class="form-card">
-                <h2>用户登入</h2>
+                <h2>用戶登入</h2>
                 <form onsubmit="handleLogin(event)">
                     <div class="input-group">
-                        <label>账号</label>
-                        <input type="text" id="login-username" required placeholder="请输入您的账号">
+                        <label>賬號</label>
+                        <input type="text" id="login-username" required placeholder="請輸入您的賬號">
                     </div>
                     <div class="input-group">
-                        <label>密码</label>
-                        <input type="password" id="login-password" required placeholder="请输入您的密码">
+                        <label>密碼</label>
+                        <input type="password" id="login-password" required placeholder="請輸入您的密碼">
                     </div>
                     <button type="submit" class="submit-btn">立即登入</button>
                 </form>
                 <p style="text-align: center; margin-top: 15px;">
-                    <a href="#" style="color: #2e7d32; text-decoration: none; font-size: 14px;">← 返回首页</a>
+                    <a href="#" style="color: #2e7d32; text-decoration: none; font-size: 14px;">← 返回首頁</a>
                 </p>
             </div>
         </div>
@@ -58,20 +58,20 @@
     <div id="register-view" class="view">
         <div class="form-wrapper">
             <div class="form-card">
-                <h2>新用户注册</h2>
+                <h2>新用戶注冊</h2>
                 <form onsubmit="handleRegister(event)">
                     <div class="input-group">
-                        <label>设置账号</label>
-                        <input type="text" id="reg-username" required placeholder="请设置您的账号">
+                        <label>設置賬號</label>
+                        <input type="text" id="reg-username" required placeholder="請設置您的賬號">
                     </div>
                     <div class="input-group">
-                        <label>设置密码</label>
-                        <input type="password" id="reg-password" required placeholder="请设置您的密码">
+                        <label>設置密碼</label>
+                        <input type="password" id="reg-password" required placeholder="請設置您的密碼">
                     </div>
-                    <button type="submit" class="submit-btn">立即注册</button>
+                    <button type="submit" class="submit-btn">立即注冊</button>
                 </form>
                 <p style="text-align: center; margin-top: 15px;">
-                    <a href="#" style="color: #2e7d32; text-decoration: none; font-size: 14px;">← 返回首页</a>
+                    <a href="#" style="color: #2e7d32; text-decoration: none; font-size: 14px;">← 返回首頁</a>
                 </p>
             </div>
         </div>
@@ -79,21 +79,21 @@
 
     <div id="main-view" class="view">
         <div class="camera-container">
-            <h2>食物标签扫描仪</h2>
-            <p>请允许浏览器使用您的摄像头以扫描食物成分表。</p>
+            <h2>食物標簽掃描儀</h2>
+            <p>請允許瀏覽器使用您的攝像頭以掃描食物成分表。</p>
             <div class="video-wrap">
                 <video id="camera-stream" autoplay playsinline style="width: 100%; max-width: 500px; border-radius: 12px;"></video>
             </div>
 
             <div class="camera-controls">
-                <button onclick="startCamera()" class="submit-btn" style="background-color: #2e7d32;">开启摄像头</button>
-                <button onclick="capturePhoto()" class="submit-btn" style="background-color: #388e3c;">拍照识别</button>
-                <button onclick="stopCamera()" class="submit-btn" style="background-color: #d32f2f;">关闭摄像头</button>
+                <button onclick="startCamera()" class="submit-btn" style="background-color: #2e7d32;">開啟攝像頭</button>
+                <button onclick="capturePhoto()" class="submit-btn" style="background-color: #388e3c;">拍照識別</button>
+                <button onclick="stopCamera()" class="submit-btn" style="background-color: #d32f2f;">關閉攝像頭</button>
             </div>
 
             <div class="input-group" style="margin-top: 15px;">
                 <label for="upload-photo-input" class="submit-btn" style="background-color: #2e7d32; color: white; cursor: pointer; display: inline-block; text-align: center;">
-                    📁 上传本地照片
+                    📁 上傳本地照片
                 </label>
                 <input type="file" id="upload-photo-input" accept="image/*" style="display: none;" onchange="handleFileUpload(event)">
             </div>
@@ -103,7 +103,7 @@
             <div id="preview-container" style="margin-top: 15px; text-align: center;"></div>
 
             <p style="text-align: center; margin-top: 25px;">
-                <a href="#" style="color: #2e7d32; text-decoration: none; font-size: 14px;">← 返回首页</a>
+                <a href="#" style="color: #2e7d32; text-decoration: none; font-size: 14px;">← 返回首頁</a>
             </p>
         </div>
     </div>
@@ -111,9 +111,9 @@
 
     <div id="answer-view" class="view">
         <div class="form-wrapper" style="text-align: left;">
-            <h2>食物分析结果</h2>
+            <h2>食物分析結果</h2>
             <div id="answer-content" style="line-height: 1.6; font-size: 16px; margin-bottom: 25px;">
-                <p style="color: #666; text-align: center;">暂无分析结果，请先去拍照识别。</p>
+                <p style="color: #666; text-align: center;">暫無分析結果，請先去拍照識別。</p>
             </div>
             <div style="text-align: center;">
                 <a href="#main" class="submit-btn" style="text-decoration: none; display: inline-block;">返回主界面</a>
@@ -124,8 +124,8 @@
     <div id="loading-modal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="spinner"></div>
-            <h3 id="loading-title">加载中</h3>
-            <p id="loading-message">正在处理，请稍候...</p>
+            <h3 id="loading-title">加載中</h3>
+            <p id="loading-message">正在處理，請稍候...</p>
         </div>
     </div>
 
@@ -133,30 +133,30 @@
         <div class="modal-card" style="text-align: center;">
             <h2 id="alert-title" style="color: #2e7d32; margin-top: 0; margin-bottom: 15px;">提示</h2>
             <p id="alert-message" style="color: #555; margin-bottom: 25px; line-height: 1.5;"></p>
-            <button onclick="closeCustomAlert()" class="submit-btn">确定</button>
+            <button onclick="closeCustomAlert()" class="submit-btn">確定</button>
         </div>
     </div>
 
     <script src="sketch.js"></script>
     <div id="profile-view" class="view">
         <div class="card" style="text-align: left; max-width: 500px; margin: 40px auto;">
-            <h2 style="color: #2e7d32; text-align: center; margin-top: 0;">👤 个人资料与偏好设置</h2>
+            <h2 style="color: #2e7d32; text-align: center; margin-top: 0;">👤 個人資料與偏好設置</h2>
             <form onsubmit="saveProfilePreference(event)">
                 <div class="input-group">
-                    <label>当前账号</label>
+                    <label>當前賬號</label>
                     <input type="text" id="profile-username" readonly style="background-color: #f0f0f0; color: #666;">
                 </div>
                 <div class="input-group">
-                    <label>饮食习惯/忌口</label>
-                    <input type="text" id="pref-diet" placeholder="例如：素食、低糖、无坚果">
+                    <label>飲食習慣/忌口</label>
+                    <input type="text" id="pref-diet" placeholder="例如：素食、低糖、無堅果">
                 </div>
                 <div class="input-group">
-                    <label>健康目标</label>
-                    <input type="text" id="pref-goal" placeholder="例如：减脂、增肌、控糖">
+                    <label>健康目標</label>
+                    <input type="text" id="pref-goal" placeholder="例如：減脂、增肌、控糖">
                 </div>
                 <button type="submit" class="submit-btn" style="margin-bottom: 10px;">保存修改</button>
                 <button type="button" onclick="handleLogout()" class="cancel-btn" style="margin-bottom: 10px; background: linear-gradient(180deg, #e57373 0%, #d32f2f 100%) !important;">退出登入</button>
-                <button type="button" onclick="window.location.hash='#main'" class="submit-btn" style="background: #78909c;">返回扫描仪</button>
+                <button type="button" onclick="window.location.hash='#main'" class="submit-btn" style="background: #78909c;">返回掃描儀</button>
             </form>
         </div>
     </div>
