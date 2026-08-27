@@ -184,7 +184,7 @@ async function capturePhoto() {
         ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
         
         const base64Image = canvas.toDataURL('image/jpeg');
-        const apiKey = "sk-f3f19798e4d246b98b1678b1a40e7f7d";
+        const apiKey = "";
 
         const response = await fetch('https://api.deepseek.com/chat/completions', {
             method: 'POST',
@@ -251,11 +251,18 @@ async function handleFileUpload(event) {
     }
 
     showLoadingModal('正在分析', 'DeepSeek 正在分析上傳的照片...');
-
+    let langPromptInstruction = "";
+    if (currentLang === 'tc') {
+        langPromptInstruction = "請用繁體中文回答。";
+    } else if (currentLang === 'sc') {
+        langPromptInstruction = "请用简体中文回答。";
+    } else {
+        langPromptInstruction = "Please reply in English.";
+    }
     const reader = new FileReader();
     reader.onload = async function(e) {
         const base64Image = e.target.result;
-        const apiKey = "sk-f3f19798e4d246b98b1678b1a40e7f7d";
+        const apiKey = "";
 
         try {
             const response = await fetch('https://api.deepseek.com/chat/completions', {
@@ -269,7 +276,7 @@ async function handleFileUpload(event) {
                     messages: [
                         {
                             role: 'system',
-                            content: `你是一位專業的營養師和食品安全專家。請客觀地根據該用戶的專屬偏好：${document.getElementById('pref-diet') ? document.getElementById('pref-diet').value : '無'}和${document.getElementById('pref-goal') ? document.getElementById('pref-goal').value : '無'}來分析這張食物標簽或圖片（若食物不符合其目標或忌口需降低星級），重點評估其成分、營養優缺點和整體健康度。總字數嚴格控制在300字以上，500字以內，內容包含：1. 健康星級(如⭐⭐⭐⭐☆）必須用表情符號來表達，2. 核心成分與健康簡析。絕對不要在回答末尾提出任何反問或追問，也不要給出任何專業術語、數字，要讓任何人看懂。`
+                            content: `你是一位專業的營養師和食品安全專家。請客觀地根據該用戶的專屬偏好：${document.getElementById('pref-diet') ? document.getElementById('pref-diet').value : '無'}和${document.getElementById('pref-goal') ? document.getElementById('pref-goal').value : '無'}來分析這張食物標簽或圖片（若食物不符合其目標或忌口需降低星級），重點評估其成分、營養優缺點和整體健康度。總字數嚴格控制在300字以上，500字以內，內容包含：1. 健康星級(如⭐⭐⭐⭐☆）必須用表情符號來表達，2. 核心成分與健康簡析。絕對不要在回答末尾提出任何反問或追問，也不要給出任何專業術語、數字，要讓任何人看懂。${langPromptInstruction}`
                         },
                         {
                             role: 'user',
@@ -339,3 +346,211 @@ function closeCustomAlert() {
 function escapeHtml(text) {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
+
+const translations = {
+    tc: {
+        homeTitle: "智能食物標簽 - 你的健康助手",
+        homeDesc: "通過拍照識別食物成分表，快速了解食物的營養信息和健康建議。",
+        ctaBtn: "現在立即使用",
+        login: "登入",
+        register: "注冊",
+        loginTitle: "用戶登入",
+        username: "賬號",
+        password: "密碼",
+        loginBtn: "立即登入",
+        registerTitle: "新用戶注冊",
+        setAccount: "設置賬號",
+        setPassword: "設置密碼",
+        registerBtn: "立即注冊",
+        scannerTitle: "食物標簽掃描儀",
+        scannerDesc: "請允許瀏覽器使用您的攝像頭以掃描食物成分表。",
+        startCam: "開啟攝像頭",
+        capturePhoto: "拍照識別",
+        stopCam: "關閉攝像頭",
+        uploadPhoto: "📁 上傳本地照片",
+        answerTitle: "食物分析結果",
+        backHome: "返回首頁",
+        backMain: "返回主界面",
+        profileTitle: "👤 個人資料與偏好設置",
+        currentAccount: "當前賬號",
+        dietPref: "飲食習慣/忌口",
+        dietPlaceholder: "例如：素食、低糖、無堅果",
+        healthGoal: "健康目標",
+        goalPlaceholder: "例如：減脂、增肌、控糖",
+        saveChanges: "保存修改",
+        logout: "退出登入",
+        backScanner: "返回掃描儀",
+        profileBadgeSuffix: " (個人資料)"
+    },
+    sc: {
+        homeTitle: "智能食物标签 - 你的健康助手",
+        homeDesc: "通过拍照识别食物成分表，快速了解食物的营养信息和健康建议。",
+        ctaBtn: "现在立即使用",
+        login: "登录",
+        register: "注册",
+        loginTitle: "用户登录",
+        username: "账号",
+        password: "密码",
+        loginBtn: "立即登录",
+        registerTitle: "新用户注册",
+        setAccount: "设置账号",
+        setPassword: "设置密码",
+        registerBtn: "立即注册",
+        scannerTitle: "食物标签扫描仪",
+        scannerDesc: "请允许浏览器使用您的摄像头以扫描食物成分表。",
+        startCam: "开启摄像头",
+        capturePhoto: "拍照识别",
+        stopCam: "关闭摄像头",
+        uploadPhoto: "📁 上传本地照片",
+        answerTitle: "食物分析结果",
+        backHome: "返回首页",
+        backMain: "返回主界面",
+        profileTitle: "👤 个人资料与偏好设置",
+        currentAccount: "当前账号",
+        dietPref: "饮食习惯/忌口",
+        dietPlaceholder: "例如：素食、低糖、无坚果",
+        healthGoal: "健康目标",
+        goalPlaceholder: "例如：减脂、增肌、控糖",
+        saveChanges: "保存修改",
+        logout: "退出登录",
+        backScanner: "返回扫描仪",
+        profileBadgeSuffix: " (个人资料)"
+    },
+    en: {
+        homeTitle: "Smart Food Label - Your Health Assistant",
+        homeDesc: "Scan food ingredient labels instantly to get nutritional info and health tips.",
+        ctaBtn: "Get Started Now",
+        login: "Log In",
+        register: "Register",
+        loginTitle: "User Login",
+        username: "Username",
+        password: "Password",
+        loginBtn: "Log In",
+        registerTitle: "User Registration",
+        setAccount: "Set Username",
+        setPassword: "Set Password",
+        registerBtn: "Register",
+        scannerTitle: "Food Label Scanner",
+        scannerDesc: "Please allow camera access to scan food ingredient labels.",
+        startCam: "Start Camera",
+        capturePhoto: "Capture & Scan",
+        stopCam: "Stop Camera",
+        uploadPhoto: "📁 Upload Photo",
+        answerTitle: "Food Analysis Result",
+        backHome: "Back to Home",
+        backMain: "Back to Main",
+        profileTitle: "👤 Profile & Preferences",
+        currentAccount: "Current Username",
+        dietPref: "Dietary Habits / Allergies",
+        dietPlaceholder: "e.g., Vegetarian, Low Sugar, Nut-free",
+        healthGoal: "Health Goals",
+        goalPlaceholder: "e.g., Fat loss, Muscle gain, Sugar control",
+        saveChanges: "Save Changes",
+        logout: "Log Out",
+        backScanner: "Back to Scanner",
+        profileBadgeSuffix: " (Profile)"
+    }
+};
+
+let currentLang = localStorage.getItem('app_lang') || 'tc';
+
+function changeLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('app_lang', lang);
+    applyTranslations();
+}
+
+function applyTranslations() {
+    const t = translations[currentLang];
+    if (!t) return;
+
+    const selector = document.getElementById('lang-selector');
+    if (selector) selector.value = currentLang;
+
+    updateTextIfExists('home-view', 'h1', t.homeTitle);
+    updateTextIfExists('home-view', 'p', t.homeDesc);
+    updateTextIfExists('home-view', '.cta-btn', t.ctaBtn);
+
+    const authLinksDiv = document.getElementById('auth-menu-links');
+    if (authLinksDiv && !loggedInUser) {
+        authLinksDiv.innerHTML = `
+            <a href="#login" onclick="toggleMenu()">${t.login}</a>
+            <a href="#register" onclick="toggleMenu()">${t.register}</a>
+        `;
+    } else if (authLinksDiv && loggedInUser) {
+        authLinksDiv.innerHTML = `
+            <a href="#profile" onclick="toggleMenu()" class="user-account-badge" style="color: #2e7d32; font-weight: bold; background-color: #f4f9f4;">
+                👤 ${escapeHtml(loggedInUser)}${t.profileBadgeSuffix}
+            </a>
+        `;
+    }
+
+    updateTextIfExists('login-view', 'h2', t.loginTitle);
+    updateInputLabelAndPlaceholder('login-view', 0, t.username, t.username);
+    updateInputLabelAndPlaceholder('login-view', 1, t.password, t.password);
+    updateTextIfExists('login-view', 'button[type="submit"]', t.loginBtn);
+    const loginBack = document.querySelector('#login-view p a');
+    if (loginBack) loginBack.innerHTML = `← ${t.backHome}`;
+
+    updateTextIfExists('register-view', 'h2', t.registerTitle);
+    updateInputLabelAndPlaceholder('register-view', 0, t.setAccount, t.setAccount);
+    updateInputLabelAndPlaceholder('register-view', 1, t.setPassword, t.setPassword);
+    updateTextIfExists('register-view', 'button[type="submit"]', t.registerBtn);
+    const regBack = document.querySelector('#register-view p a');
+    if (regBack) regBack.innerHTML = `← ${t.backHome}`;
+
+    updateTextIfExists('main-view', 'h2', t.scannerTitle);
+    updateTextIfExists('main-view', 'p', t.scannerDesc);
+    const mainBack = document.querySelector('#main-view p a');
+    if (mainBack) mainBack.innerHTML = `← ${t.backHome}`;
+    
+    const camButtons = document.querySelectorAll('#main-view .camera-controls button');
+    if (camButtons.length >= 3) {
+        camButtons[0].innerText = t.startCam;
+        camButtons[1].innerText = t.capturePhoto;
+        camButtons[2].innerText = t.stopCam;
+    }
+    const uploadLabel = document.querySelector('label[for="upload-photo-input"]');
+    if (uploadLabel) uploadLabel.innerText = t.uploadPhoto;
+
+    updateTextIfExists('answer-view', 'h2', t.answerTitle);
+    const backMainBtn = document.querySelector('#answer-view a[href="#main"]');
+    if (backMainBtn) backMainBtn.innerText = t.backMain;
+
+    updateTextIfExists('profile-view', 'h2', t.profileTitle);
+    updateInputLabelAndPlaceholder('profile-view', 0, t.currentAccount, '');
+    updateInputLabelAndPlaceholder('profile-view', 1, t.dietPref, t.dietPlaceholder);
+    updateInputLabelAndPlaceholder('profile-view', 2, t.healthGoal, t.goalPlaceholder);
+    
+    const profileFormButtons = document.querySelectorAll('#profile-view button');
+    if (profileFormButtons.length >= 3) {
+        profileFormButtons[0].innerText = t.saveChanges;
+        profileFormButtons[1].innerText = t.logout;
+        profileFormButtons[2].innerText = t.backScanner;
+    }
+}
+
+function updateTextIfExists(containerId, selector, text) {
+    const container = document.getElementById(containerId);
+    if (container) {
+        const el = container.querySelector(selector);
+        if (el) el.innerText = text;
+    }
+}
+
+function updateInputLabelAndPlaceholder(containerId, groupIndex, labelText, placeholderText) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const groups = container.querySelectorAll('.input-group');
+    if (groups[groupIndex]) {
+        const label = groups[groupIndex].querySelector('label');
+        const input = groups[groupIndex].querySelector('input');
+        if (label && labelText) label.innerText = labelText;
+        if (input && placeholderText) input.placeholder = placeholderText;
+    }
+}
+
+window.addEventListener('load', () => {
+    applyTranslations();
+    router();
+});
