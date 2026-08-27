@@ -175,6 +175,14 @@ async function capturePhoto() {
     }
 
     showLoadingModal('正在分析', '正在分析食物成分...');
+    let langPromptInstruction = "";
+    if (currentLang === 'tc') {
+        langPromptInstruction = "請用繁體中文回答。";
+    } else if (currentLang === 'sc') {
+        langPromptInstruction = "请用简体中文回答。";
+    } else {
+        langPromptInstruction = "Please reply in English.";
+    }
 
     try {
         const canvas = document.getElementById('snapshot-canvas');
@@ -184,7 +192,7 @@ async function capturePhoto() {
         ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
         
         const base64Image = canvas.toDataURL('image/jpeg');
-        const apiKey = "";
+        const apiKey = "sk-f3f19798e4d246b98b1678b1a40e7f7d";
 
         const response = await fetch('https://api.deepseek.com/chat/completions', {
             method: 'POST',
@@ -197,7 +205,7 @@ async function capturePhoto() {
                 messages: [
                     {
                         role: 'system',
-                        content: `你是一位專業的營養師和食品安全專家。請客觀地根據該用戶的專屬偏好：${document.getElementById('pref-diet').value}和${document.getElementById('pref-goal').value}來分析這張食物標簽或圖片（若食物不符合其目標或忌口需降低星級），重點評估其成分、營養優缺點和整體健康度。總字數嚴格控制在300字以上，500字以內，內容包含：1. 健康星級(如⭐⭐⭐⭐☆）必須用表情符號來表達，2. 核心成分與健康簡析。絕對不要在回答末尾提出任何反問或追問，也不要給出任何專業術語、數字，要讓任何人看懂。`
+                        content: `你是一位專業的營養師和食品安全專家。請客觀地根據該用戶的專屬偏好：${document.getElementById('pref-diet').value}和${document.getElementById('pref-goal').value}來分析這張食物標簽或圖片（若食物不符合其目標或忌口需降低星級），重點評估其成分、營養優缺點和整體健康度。總字數嚴格控制在300字以上，500字以內，內容包含：1. 健康星級(如⭐⭐⭐⭐☆）必須用表情符號來表達，2. 核心成分與健康簡析。絕對不要在回答末尾提出任何反問或追問，也不要給出任何專業術語、數字，要讓任何人看懂。${langPromptInstruction}`
                     },
                     {
                         role: 'user',
@@ -262,7 +270,7 @@ async function handleFileUpload(event) {
     const reader = new FileReader();
     reader.onload = async function(e) {
         const base64Image = e.target.result;
-        const apiKey = "";
+        const apiKey = "sk-f3f19798e4d246b98b1678b1a40e7f7d";
 
         try {
             const response = await fetch('https://api.deepseek.com/chat/completions', {
